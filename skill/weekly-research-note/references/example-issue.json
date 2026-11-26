@@ -1,0 +1,239 @@
+{
+ "week": "sample",
+ "title": "학습 신호는 응답이 갈리는 곳에서, 버그는 단계가 만나는 곳에서 나온다",
+ "keywords": [
+  "GRPO",
+  "all-reduce",
+  "RL 프레임워크"
+ ],
+ "applied_feedback": "샘플 호라서 반영할 피드백이 없습니다. 실제 호에서는 지난주 별점과 댓글에서 바꾼 점이 여기에 한두 줄로 들어갑니다.",
+ "summary_heading": "이번 주는 RL 학습의 데이터와 구조를 함께 봅니다",
+ "summary": [
+  "이번 주 세션은 RL 후처리 학습 코드와 분산 통신에 집중되어 있었습니다. 그래서 GRPO 계열 기법을 보상의 표준편차 하나로 정리한 논문, 화요일 질문에 남아 있던 ring all-reduce의 원리, 그리고 RL 학습 루프의 구조를 골랐습니다.",
+  "세 꼭지를 관통하는 한 줄은 이것입니다. 학습 신호는 정답과 오답이 갈리는 문제에서 나오고, 시스템 버그는 단계와 단계가 만나는 경계에서 나옵니다."
+ ],
+ "cards": [
+  {
+   "value": "약 44%",
+   "label": "학습에 기여하지 않는 그룹",
+   "note": "Big-Math, 그룹 크기 8 기준 논문 보고치 (1-B)"
+  },
+  {
+   "value": "p = 0.5",
+   "label": "학습 신호가 가장 큰 정답률",
+   "note": "정답과 오답이 반반일 때 σ가 최대 (1-B)"
+  },
+  {
+   "value": "2(N−1)/N",
+   "label": "ring all-reduce 노드당 전송량",
+   "note": "데이터 크기 대비, 노드가 늘어도 2배를 넘지 않음 (1-A)"
+  },
+  {
+   "value": "2곳",
+   "label": "RL 루프에서 버그가 몰리는 경계",
+   "note": "logprob 불일치, 가중치 staleness (3)"
+  }
+ ],
+ "sections": [
+  {
+   "num": "1-A",
+   "label": "기반 논문",
+   "heading": "ring all-reduce는 노드가 늘어도 각자 보내는 양이 거의 늘지 않는다",
+   "blocks": [
+    {
+     "type": "quote",
+     "label": "계기",
+     "text": "화요일, “all-reduce가 왜 ring으로 도는 거지? NCCL_ALGO=Tree랑 차이는?”"
+    },
+    {
+     "type": "paper",
+     "title": "Bandwidth Optimal All-reduce Algorithms for Clusters of Workstations",
+     "url": "https://doi.org/10.1016/j.jpdc.2008.09.002",
+     "venue": "JPDC 2009",
+     "affil": "Florida State University",
+     "item": "1-A.1"
+    },
+    {
+     "type": "p",
+     "text": "all-reduce를 reduce-scatter와 all-gather 두 단계로 나누고 데이터를 N조각으로 쪼개면, 각 노드는 단계마다 한 조각씩만 이웃에게 넘기면 됩니다. 그래서 노드 하나가 보내는 양은 데이터 크기의 2(N−1)/N배로, 노드가 아무리 늘어도 2배를 넘지 않습니다. 논문은 이것이 대역폭 측면의 하한과 같다는 것, 즉 더 줄일 수 없다는 것을 보입니다."
+    },
+    {
+     "type": "p",
+     "text": "대신 단계 수가 2(N−1)번이라 지연(latency) 항은 노드 수에 비례해 커집니다. 작은 메시지에서 트리 계열 알고리즘이 유리한 이유가 여기에 있습니다."
+    },
+    {
+     "type": "callout",
+     "title": "읽을 곳과 복습 질문",
+     "items": [
+      "3절의 대역폭 하한 논증과 4절의 링 알고리즘만 읽어도 핵심은 충분합니다.",
+      "노드 수가 8에서 64로 늘면 ring all-reduce의 총 시간에서 커지는 항은 무엇이고, 왜 그럴까요?"
+     ]
+    }
+   ]
+  },
+  {
+   "num": "1-B",
+   "label": "인접 최신 논문",
+   "heading": "GRPO·Dr.GRPO·DAPO는 표준편차 하나를 다루는 세 방식이다",
+   "blocks": [
+    {
+     "type": "paper",
+     "title": "GRPO, Dr. GRPO, and DAPO Are Three Operations on One Number: The Group-Standard-Deviation Identity",
+     "url": "https://arxiv.org/abs/2607.00152",
+     "venue": "arXiv 2026",
+     "affil": "Bay, Yearick",
+     "exception": "preprint, 이번 주 GRPO 세션과 직결",
+     "item": "1-B.1"
+    },
+    {
+     "type": "p",
+     "text": "**나와의 연결**  수요일 세션에서 GRPO의 advantage 정규화를 Dr.GRPO 방식으로 바꿀지 고민했는데, 이 논문은 그 선택보다 데이터의 난이도 분포가 먼저라는 근거를 줍니다."
+    },
+    {
+     "type": "p",
+     "text": "정답이면 1, 오답이면 0인 보상에서 G개 중 k개를 맞혔다면, 한 문제가 만드는 업데이트의 크기는 응답들의 표준편차와 같습니다."
+    },
+    {
+     "type": "equation",
+     "path": "eq1.svg"
+    },
+    {
+     "type": "p",
+     "text": "직관은 이렇습니다. 응답이 정답과 오답으로 갈려야 어느 쪽으로 움직일지가 정해집니다. 모두 맞히거나 모두 틀리면 σ가 0이 되고, 그 문제는 계산만 쓰고 학습에는 아무것도 보태지 않습니다. 이런 그룹이 나올 확률은 정답률 p와 그룹 크기 G로 정해집니다."
+    },
+    {
+     "type": "equation",
+     "path": "eq2.svg"
+    },
+    {
+     "type": "figure",
+     "path": "fig1.svg",
+     "caption": "정답률 p에 따른 무음 확률(G = 8). 양 끝에서는 거의 항상 무음이고 p = 0.5에서 최소가 됩니다. 점선은 논문이 보고한 Big-Math 평균입니다. 논문의 수식으로 직접 그렸습니다.",
+     "item": "fig-1"
+    },
+    {
+     "type": "h2",
+     "text": "1-B.1  세 기법의 차이는 σ를 어떻게 다루느냐뿐이다"
+    },
+    {
+     "type": "bullets",
+     "items": [
+      "**GRPO**는 σ로 나눕니다. 그 결과 아주 쉽거나 아주 어려운 문제에 더 큰 가중이 붙습니다.",
+      "**Dr.GRPO**는 나누지 않습니다. 난이도와 무관하게 균일한 가중을 씁니다.",
+      "**DAPO**는 σ = 0인 그룹을 버리고 다시 뽑습니다. 학습은 빠르지만 그만큼 더 많이 생성해야 합니다."
+     ]
+    }
+   ]
+  },
+  {
+   "num": "3",
+   "label": "엔지니어링 큰 그림",
+   "heading": "RL 학습 코드의 버그는 단계 안이 아니라 단계 사이에 숨어 있다",
+   "blocks": [
+    {
+     "type": "figure",
+     "path": "fig2.svg",
+     "caption": "RL 학습 한 스텝의 다섯 단계. 파랑은 추론 엔진, 초록은 학습 엔진이 맡고, 주황 글씨가 문제가 자주 생기는 두 경계입니다. 직접 작성.",
+     "item": "fig-2"
+    },
+    {
+     "type": "p",
+     "text": "정책 하나를 추론 엔진과 학습 엔진이 각자 들고 있다는 것이 출발점입니다. 두 엔진은 커널과 정밀도가 달라 같은 샘플에도 조금씩 다른 logprob을 냅니다. 그래서 importance ratio에 쓰는 old logprob은 학습 엔진으로 다시 계산하는 편이 안전합니다. 또 생성과 학습을 겹쳐 돌리면 샘플이 이전 버전 가중치로 만들어지고, 그만큼 off-policy가 됩니다."
+    },
+    {
+     "type": "code",
+     "lines": [
+      "for step in range(num_steps):",
+      "    rollouts = engine.generate(prompts, n=G)     # [정책 버전 v 태그]",
+      "    rewards  = reward_fn(rollouts)                # [verifier / RM]",
+      "    old_lp   = trainer.logprobs(rollouts)         # [엔진 값 대신 재계산]",
+      "    adv      = advantage(rewards)                 # [GRPO: 그룹 정규화]",
+      "    for mb in minibatches(rollouts, adv, old_lp):",
+      "        trainer.step(policy_loss(mb))             # [clip · KL · entropy]",
+      "    sync_weights(trainer, engine)                 # [공유형: 리샤딩 / 분리형: 브로드캐스트]"
+     ]
+    },
+    {
+     "type": "callout",
+     "title": "비슷한 작업을 할 때 확인할 것",
+     "tone": "warm",
+     "items": [
+      "샘플마다 생성 당시의 정책 버전을 기록해 staleness를 볼 수 있는가",
+      "엔진과 학습 엔진의 logprob 차이를 지표로 찍고 있는가",
+      "생성·채점·학습·동기화 시간을 단계별로 나눠 로깅하는가"
+     ]
+    }
+   ]
+  }
+ ],
+ "references": [
+  {
+   "authors": "Bay, Y. Y., & Yearick, K. A.",
+   "year": "2026",
+   "title": "GRPO, Dr. GRPO, and DAPO Are Three Operations on One Number",
+   "url": "https://arxiv.org/abs/2607.00152",
+   "venue": "arXiv:2607.00152"
+  },
+  {
+   "authors": "Patarasuk, P., & Yuan, X.",
+   "year": "2009",
+   "title": "Bandwidth Optimal All-reduce Algorithms for Clusters of Workstations",
+   "url": "https://doi.org/10.1016/j.jpdc.2008.09.002",
+   "venue": "JPDC 69(2)"
+  },
+  {
+   "authors": "Shao, Z., et al.",
+   "year": "2024",
+   "title": "DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models",
+   "url": "https://arxiv.org/abs/2402.03300",
+   "venue": "arXiv:2402.03300"
+  }
+ ],
+ "sample": true,
+ "items": {
+  "1-A.1": {
+   "kind": "paper",
+   "title": "Bandwidth Optimal All-reduce",
+   "topics": [
+    "collective"
+   ],
+   "venue": "JPDC 2009",
+   "level": "기초"
+  },
+  "1-B.1": {
+   "kind": "paper",
+   "title": "GRPO std identity",
+   "topics": [
+    "RL",
+    "GRPO"
+   ],
+   "venue": "arXiv 2026",
+   "level": "중급"
+  },
+  "fig-1": {
+   "kind": "figure",
+   "title": "무음 확률 곡선",
+   "topics": [
+    "GRPO"
+   ]
+  },
+  "fig-2": {
+   "kind": "figure",
+   "title": "RL 루프",
+   "topics": [
+    "RL systems"
+   ]
+  }
+ },
+ "questions": [
+  {
+   "id": "Q1",
+   "text": "지난주 ‘1-B가 길다’는 어느 쪽이었나요?",
+   "options": [
+    "1-B 전체 분량",
+    "논문 설명 부분",
+    "수식 풀이 부분"
+   ]
+  }
+ ]
+}

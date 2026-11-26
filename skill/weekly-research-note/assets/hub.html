@@ -1,0 +1,634 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>주간 리서치 노트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #FBFCFD; --surface: #F1F4F8; --ink: #1B1F24; --muted: #5E6673; --rule: #DDE2E8;
+  --accent: #3346A8; --accent-soft: #EAEDFA; --caution: #B8410C; --caution-soft: #FFF1E8;
+  --code-bg: #F3F5F8; --plate: #FFFFFF; --plate-rule: #E3E7EC;
+  --sans: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #12151A; --surface: #1A1E25; --ink: #E6E9EE; --muted: #9AA3AF; --rule: #2B313A;
+    --accent: #93A5F5; --accent-soft: #222944; --caution: #F3A26B; --caution-soft: #3A2418;
+    --code-bg: #1C2129; --plate: #FFFFFF; --plate-rule: #2B313A;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #12151A; --surface: #1A1E25; --ink: #E6E9EE; --muted: #9AA3AF; --rule: #2B313A;
+  --accent: #93A5F5; --accent-soft: #222944; --caution: #F3A26B; --caution-soft: #3A2418;
+  --code-bg: #1C2129; --plate: #FFFFFF; --plate-rule: #2B313A;
+}
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans);
+  font-size: 17px; line-height: 1.75; word-break: keep-all; overflow-wrap: anywhere; -webkit-text-size-adjust: 100%; }
+main { max-width: 760px; margin: 0 auto; padding: 28px 22px 96px; }
+a { color: var(--accent); text-underline-offset: 3px; }
+button, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 14px;
+  border-bottom: 1px solid var(--rule); margin-bottom: 40px; font-size: 15px; }
+.bar strong { font-weight: 700; letter-spacing: -0.01em; }
+.bar select { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 6px 10px; max-width: 60%; }
+
+.week { color: var(--accent); font-weight: 500; font-size: 15px; margin: 0 0 8px; }
+.tag-sample { display: inline-block; margin-left: 8px; padding: 1px 8px; border-radius: 999px;
+  background: var(--caution-soft); color: var(--caution); font-size: 13px; }
+h1 { font-size: clamp(26px, 5vw, 34px); line-height: 1.32; letter-spacing: -0.02em; font-weight: 700; margin: 0 0 14px; }
+.keywords { color: var(--muted); font-size: 15px; margin: 0 0 28px; }
+.keywords span + span { margin-left: 14px; }
+.notice { background: var(--surface); border-radius: 10px; padding: 14px 18px; font-size: 15px; margin: 0 0 28px; }
+.notice p { margin: 0; } .notice p + p { margin-top: 6px; }
+.notice b { font-weight: 700; margin-right: 6px; }
+
+.toc { margin: 0 0 8px; padding: 0; list-style: none; font-size: 15px; }
+.toc li { margin: 2px 0; }
+.toc button { background: none; border: 0; padding: 2px 0; cursor: pointer; text-align: left; display: flex; gap: 14px; }
+.toc .n { color: var(--accent); font-weight: 700; min-width: 2.6em; }
+.toc button:hover .t { text-decoration: underline; text-underline-offset: 3px; }
+
+.sec { margin-top: 72px; }
+.marker { display: flex; align-items: baseline; gap: 14px; margin-bottom: 4px; }
+.marker .num { font-size: clamp(44px, 9vw, 60px); line-height: 1; font-weight: 700; color: var(--accent); letter-spacing: -0.03em; }
+.marker .label { color: var(--muted); font-size: 15px; }
+.marker .cbtn { margin-left: auto; background: none; border: 1px solid var(--rule); border-radius: 999px;
+  padding: 2px 12px; font-size: 13px; color: var(--muted); cursor: pointer; }
+.marker .cbtn:hover { color: var(--ink); border-color: var(--muted); }
+h2 { font-size: clamp(21px, 3.6vw, 25px); line-height: 1.4; letter-spacing: -0.015em; font-weight: 700; margin: 6px 0 22px; }
+h3 { font-size: 19px; line-height: 1.45; font-weight: 700; margin: 36px 0 12px; }
+p { margin: 0 0 18px; }
+ul.list { margin: 0 0 20px; padding-left: 1.2em; } ul.list li { margin: 4px 0; }
+code.inline { font-family: var(--mono); font-size: 0.88em; background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+
+.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 8px 0 8px; }
+.card { background: var(--surface); border-radius: 12px; padding: 18px 20px; }
+.card .v { font-size: 30px; font-weight: 700; color: var(--accent); line-height: 1.2; letter-spacing: -0.02em; }
+.card .l { font-weight: 700; font-size: 15px; margin-top: 8px; line-height: 1.5; }
+.card .d { color: var(--muted); font-size: 13.5px; margin-top: 4px; line-height: 1.55; }
+
+blockquote { margin: 0 0 22px; padding: 2px 0 2px 16px; border-left: 3px solid var(--accent); color: var(--muted); font-size: 15.5px; }
+blockquote b { color: var(--accent); margin-right: 8px; }
+.paper { margin: 4px 0 20px; }
+.paper .pt { font-weight: 700; font-size: 18px; line-height: 1.5; }
+.paper .pm { color: var(--muted); font-size: 14px; margin-top: 2px; }
+.paper .ex { color: var(--caution); font-weight: 500; margin-left: 10px; }
+
+figure { margin: 26px 0 30px; }
+.plate { background: var(--plate); border: 1px solid var(--plate-rule); border-radius: 12px; padding: 14px; }
+.plate img { display: block; width: 100%; height: auto; }
+.plate.eq { display: table; margin: 0 auto; padding: 8px 16px; }
+.plate.eq img { width: auto; max-width: 100%; max-height: 64px; }
+.plate.pending { min-height: 120px; }
+figcaption { font-size: 14px; color: var(--muted); margin-top: 10px; line-height: 1.65; }
+figcaption b { color: var(--ink); margin-right: 6px; }
+.eqwrap { margin: 6px 0 22px; }
+
+pre { font-family: var(--mono); font-size: 13.5px; line-height: 1.65; background: var(--code-bg); border: 1px solid var(--rule);
+  border-radius: 10px; padding: 14px 16px; overflow-x: auto; margin: 0 0 22px; }
+.callout { border-radius: 12px; padding: 16px 20px; margin: 0 0 22px; background: var(--accent-soft); }
+.callout.warm { background: var(--caution-soft); }
+.callout .ct { font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+.callout.warm .ct { color: var(--caution); }
+.callout ul { margin: 0; padding-left: 1.2em; } .callout p { margin: 0; }
+
+ol.refs { padding-left: 1.6em; font-size: 15px; } ol.refs li { margin: 6px 0; }
+ol.refs li::marker { color: var(--accent); font-weight: 700; }
+
+.fb-intro { color: var(--muted); font-size: 15px; }
+.fb-item { padding: 12px 0; border-bottom: 1px solid var(--rule); }
+.fb-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.fb-item input { display: block; width: 100%; margin-top: 8px; border: 1px solid var(--rule); border-radius: 8px; background: var(--bg); color: var(--ink); padding: 8px 12px; font-size: 15px; }
+.fb-row .who { font-size: 15px; } .fb-row .who b { color: var(--accent); margin-right: 8px; }
+.stars { display: flex; gap: 6px; }
+.stars button { width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--rule); background: var(--bg); cursor: pointer; font-size: 15px; }
+.stars button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--bg); font-weight: 700; }
+textarea { width: 100%; min-height: 96px; margin-top: 18px; border: 1px solid var(--rule); border-radius: 10px; background: var(--bg); padding: 12px 14px; font-size: 15px; line-height: 1.6; }
+.fb-actions { display: flex; align-items: center; gap: 14px; margin-top: 12px; }
+.primary { background: var(--accent); color: var(--bg); border: 0; border-radius: 10px; padding: 10px 18px; font-weight: 700; cursor: pointer; }
+.primary[disabled] { opacity: 0.6; cursor: default; }
+.status { color: var(--muted); font-size: 14px; }
+
+.fb-strip { margin: 28px 0 0; padding: 14px 16px; border-radius: 16px; background: var(--surface); }
+.fb-strip .fb-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; }
+.fb-strip .who { font-size: 14px; font-weight: 700; color: var(--muted); margin-right: auto; }
+.fb-strip input { display: block; width: 100%; margin-top: 10px; border: 1px solid var(--rule); border-radius: 10px; background: var(--bg); color: var(--ink); padding: 8px 12px; font-size: 15px; }
+.tagbar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: -8px 0 24px; }
+.tag { border: 1px solid var(--rule); background: var(--bg); color: var(--muted); border-radius: 999px; padding: 3px 11px; font-size: 13px; cursor: pointer; }
+.tag:hover { color: var(--ink); border-color: var(--muted); }
+.tag[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 500; }
+.tagstat { font-size: 12px; color: var(--muted); margin-left: 4px; }
+.fb-qs { margin: 8px 0 18px; }
+.fb-q { padding: 12px 0; border-bottom: 1px solid var(--rule); }
+.fb-qt { font-size: 15px; } .fb-qt b { color: var(--accent); margin-right: 8px; }
+.fb-qo { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.fb-q input { display: block; width: 100%; margin-top: 8px; border: 1px solid var(--rule); border-radius: 8px; background: var(--bg); color: var(--ink); padding: 8px 12px; font-size: 15px; }
+.state { padding: 64px 0; } .state h1 { font-size: 26px; } .state p { color: var(--muted); }
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .cards { grid-template-columns: 1fr; }
+  .fb-row { flex-direction: column; align-items: flex-start; }
+  .stars button { width: 40px; height: 40px; }
+}
+</style>
+<style>
+/* ── Wrapped 스타일: 장(章)을 넘겨 보는 구성 ── */
+:root {
+  --bg: #F6F4EF; --surface: #ECE9E2; --ink: #111111; --muted: #5A5A5A; --rule: #DAD6CD;
+  --accent: #5B3DF5; --accent-soft: #ECE8FF; --caution: #E0400F; --caution-soft: #FFE9DF;
+  --code-bg: #15151A; --plate: #FFFFFF; --plate-rule: #E4E0D8;
+  --c1: #C8F035; --c2: #FF5FA8; --c3: #7B61FF; --c4: #FF8A1F; --c5: #2EE6C9; --c6: #FFD23F;
+  --on-c: #0D0D0D;
+  --sans: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E0E11; --surface: #1A1A20; --ink: #F3F3F3; --muted: #A4A4AE; --rule: #2A2A33;
+    --accent: #A897FF; --accent-soft: #221D3D; --caution: #FF8A5C; --caution-soft: #34201A;
+    --code-bg: #15151A; --plate-rule: #2A2A33;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E0E11; --surface: #1A1A20; --ink: #F3F3F3; --muted: #A4A4AE; --rule: #2A2A33;
+  --accent: #A897FF; --accent-soft: #221D3D; --caution: #FF8A5C; --caution-soft: #34201A;
+  --code-bg: #15151A; --plate-rule: #2A2A33;
+}
+html { scroll-snap-type: y proximity; scroll-padding-top: 56px; }
+body { font-size: 17px; line-height: 1.8; letter-spacing: -0.005em; }
+main { max-width: 720px; padding: 0 20px 120px; }
+strong { font-weight: 700; }
+
+.bar { position: sticky; top: 0; z-index: 10; margin: 0 -20px 0; padding: 10px 20px 10px; border: 0;
+  background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  flex-wrap: wrap; row-gap: 8px; }
+.bar strong { font-weight: 900; font-size: 15px; letter-spacing: -0.02em; }
+.bar select { border-radius: 999px; padding: 4px 12px; font-size: 14px; }
+.progress { display: flex; gap: 4px; width: 100%; order: 3; }
+.progress button { flex: 1; height: 4px; border: 0; padding: 0; border-radius: 2px; background: var(--rule); cursor: pointer; }
+.progress button.done { background: var(--ink); }
+.progress button.on { background: var(--accent); }
+
+.hero { margin: 16px -20px 0; padding: 40px 24px 36px; border-radius: 0 0 28px 28px; background: var(--on-c); color: #fff;
+  scroll-snap-align: start; position: relative; overflow: hidden; }
+.hero::before { content: ""; position: absolute; width: 340px; height: 340px; right: -110px; top: -120px; border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, var(--c2), var(--c3) 60%, transparent 70%); opacity: .9; }
+.hero::after { content: ""; position: absolute; width: 220px; height: 220px; left: -80px; bottom: -110px; border-radius: 50%;
+  background: radial-gradient(circle, var(--c1), transparent 68%); opacity: .55; }
+.hero > * { position: relative; z-index: 1; }
+.hero .week { color: var(--c1); font-weight: 700; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; }
+.hero h1 { font-weight: 900; font-size: clamp(32px, 8vw, 52px); line-height: 1.15; letter-spacing: -0.04em; margin: 6px 0 18px; }
+.hero .keywords { color: #DADADA; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.hero .keywords span { margin: 0 !important; border: 1px solid rgba(255,255,255,.28); border-radius: 999px; padding: 2px 12px; font-size: 13.5px; }
+.notice { margin: 24px 0 0; border-radius: 16px; background: var(--surface); }
+.toc { margin: 24px 0 0; display: grid; gap: 6px; }
+.toc button { width: 100%; align-items: baseline; padding: 10px 14px; border-radius: 12px; background: var(--surface); }
+.toc .n { font-weight: 900; color: var(--ink); }
+.toc button:hover { background: var(--accent-soft); }
+.toc button:hover .t { text-decoration: none; }
+
+.sec { margin-top: 56px; }
+.cover { scroll-snap-align: start; margin: 0 -20px 28px; padding: 28px 24px 30px; border-radius: 28px; background: var(--cc, var(--c1)); color: var(--on-c); }
+.cover .marker { margin: 0 0 10px; align-items: center; }
+.cover .marker .num { font-size: clamp(64px, 16vw, 104px); font-weight: 900; color: var(--on-c); letter-spacing: -0.06em; line-height: .9; }
+.cover .marker .label { color: var(--on-c); font-weight: 700; font-size: 14px; letter-spacing: .06em; text-transform: uppercase; opacity: .75; align-self: flex-end; padding-bottom: 6px; }
+.cover .marker .cbtn { color: var(--on-c); border-color: rgba(0,0,0,.35); align-self: flex-start; }
+.cover h2 { font-weight: 900; font-size: clamp(24px, 5.4vw, 34px); line-height: 1.28; letter-spacing: -0.03em; margin: 0; color: var(--on-c); }
+.sec:not(:has(.cover)) .marker .num { color: var(--ink); }
+
+h3 { font-weight: 900; font-size: 20px; letter-spacing: -0.02em; margin: 40px 0 14px; padding-top: 14px; border-top: 3px solid var(--ink); }
+p { margin: 0 0 20px; }
+#s-summary p:first-of-type strong, #s-summary p strong { background: linear-gradient(transparent 58%, color-mix(in srgb, var(--c1) 70%, transparent) 58%); }
+
+.cards { gap: 10px; margin: 26px 0 8px; }
+.card { border-radius: 22px; padding: 20px 20px 18px; background: var(--cc); color: var(--on-c); min-height: 170px; display: flex; flex-direction: column; }
+.card .v { color: var(--on-c); font-size: clamp(34px, 7vw, 44px); font-weight: 900; letter-spacing: -0.04em; line-height: 1.05; }
+.card .l { font-size: 15.5px; font-weight: 700; margin-top: 10px; }
+.card .d { color: var(--on-c); opacity: .72; font-size: 13.5px; margin-top: auto; padding-top: 8px; }
+
+blockquote { border-left: 0; padding: 16px 18px; border-radius: 16px; background: var(--surface); color: var(--ink); font-size: 16px; }
+blockquote b { display: block; color: var(--muted); font-size: 12.5px; letter-spacing: .08em; margin: 0 0 4px; }
+.paper { padding: 16px 18px; border-radius: 16px; border: 2px solid var(--ink); margin: 0 0 22px; }
+.paper .pt { font-weight: 900; letter-spacing: -0.02em; }
+.paper .pt a { color: var(--ink); text-decoration-color: var(--accent); text-decoration-thickness: 2px; }
+.paper .ex { display: block; margin: 6px 0 0; }
+.plate { border-radius: 18px; }
+figcaption b { color: var(--accent); }
+.callout { border-radius: 18px; }
+ul.list li { margin: 8px 0; }
+
+/* 코드: 줄마다 코드 | 주석 두 칸, 함수·자리표시 색 구분 */
+pre.code { background: var(--code-bg); color: #E8E8EE; border: 0; border-radius: 18px; padding: 16px 18px; font-size: 13.5px; line-height: 1.75;
+  display: grid; grid-template-columns: max-content minmax(10em, 1fr); column-gap: 22px; }
+pre.code .ln { display: contents; }
+pre.code .c { border-left: 1px solid rgba(255,255,255,.12); padding-left: 12px; }
+pre.code .c { color: #C8F035; font-family: var(--sans); font-size: 13px; white-space: normal; }
+pre.code .fn { color: #7CC7FF; }
+pre.code .kw { color: #FF7AB6; font-weight: 600; }
+pre.code .ph { color: #0D0D0D; background: #FFD23F; border-radius: 4px; padding: 0 4px; font-family: var(--sans); font-weight: 700; font-size: 12.5px; }
+pre.code .num { color: #FFB86B; }
+@media (max-width: 560px) {
+  pre.code { grid-template-columns: 1fr; }
+  pre.code .c { margin: 0 0 6px 1.2em; }
+}
+
+.chapnav { position: fixed; right: 14px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 11; display: flex; gap: 8px; }
+.chapnav button { width: 46px; height: 46px; border-radius: 50%; border: 0; background: var(--ink); color: var(--bg); font-size: 20px; font-weight: 900; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,.18); }
+.chapnav button:disabled { opacity: .25; cursor: default; }
+.stars button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); }
+.primary { background: var(--ink); border-radius: 999px; }
+@media (max-width: 560px) {
+  body { font-size: 16.5px; }
+  .cards { grid-template-columns: 1fr; }
+  .card { min-height: 0; padding: 18px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-snap-type: none; } }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hero { background: #221C3E; } }
+:root[data-theme="dark"] .hero { background: #221C3E; }
+</style>
+</head>
+<body>
+<main id="app">
+  <div class="bar"><strong>주간 리서치 노트</strong></div>
+  <div class="state"><p>불러오는 중이에요.</p></div>
+</main>
+<script>
+(() => {
+  const app = document.getElementById("app");
+  const el = (tag, attrs = {}, ...kids) => {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (v == null) continue;
+      if (k === "class") n.className = v;
+      else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
+      else n.setAttribute(k, v);
+    }
+    for (const c of kids.flat()) if (c != null) n.append(c);
+    return n;
+  };
+
+  // **굵게**, `코드`, [텍스트](https://…) 만 해석하고 나머지는 글자 그대로 둔다.
+  function inline(text) {
+    const out = [];
+    const re = /(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\([^)\s]+\))/g;
+    let last = 0, m;
+    const s = String(text ?? "");
+    while ((m = re.exec(s))) {
+      if (m.index > last) out.push(s.slice(last, m.index));
+      const t = m[0];
+      if (t.startsWith("**")) out.push(el("strong", {}, t.slice(2, -2)));
+      else if (t.startsWith("`")) out.push(el("code", { class: "inline" }, t.slice(1, -1)));
+      else {
+        const [, label, url] = t.match(/\[([^\]]+)\]\(([^)]+)\)/);
+        out.push(/^https?:\/\//.test(url) ? el("a", { href: url, target: "_blank", rel: "noopener" }, label) : label);
+      }
+      last = m.index + t.length;
+    }
+    if (last < s.length) out.push(s.slice(last));
+    return out;
+  }
+
+  let db = null, user = null, comments = null, isOwner = false;
+  let issues = [], current = null, loadedOnce = false, figCache = new Map(), renderToken = 0;
+
+  function bar() {
+    const sel = el("select", { "aria-label": "호 선택", onchange: (e) => { location.hash = e.target.value; } },
+      issues.map((d) => {
+        const o = el("option", { value: d.week }, d.sample ? "샘플 호" : d.week);
+        if (current && d.week === current.week) o.selected = true;
+        return o;
+      }));
+    return el("div", { class: "bar" }, el("strong", {}, "주간 리서치 노트"), issues.length ? sel : null);
+  }
+
+  function showState(title, text) {
+    app.replaceChildren(bar(), el("div", { class: "state" }, el("h1", {}, title), el("p", {}, text)));
+  }
+
+  function figure(block, isEq, n) {
+    const plate = el("div", { class: "plate pending" + (isEq ? " eq" : "") });
+    loadFig(block.fig).then((svg) => {
+      if (!svg) { plate.replaceChildren(el("p", { class: "status" }, "그림을 불러오지 못했어요.")); return; }
+      const img = el("img", { alt: isEq ? "수식" : (block.caption || "그림"),
+        src: "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg) });
+      plate.classList.remove("pending");
+      plate.replaceChildren(img);
+    });
+    if (isEq) return el("div", { class: "eqwrap" }, plate);
+    return el("figure", {}, plate, el("figcaption", {}, el("b", {}, `그림 ${n}.`), ...inline(block.caption)));
+  }
+
+  async function loadFig(id) {
+    if (!id) return null;
+    if (!figCache.has(id)) {
+      figCache.set(id, db.collection("figures").doc(id).get()
+        .then((s) => (s.exists ? String(s.data().svg || "") : null)).catch(() => null));
+    }
+    return figCache.get(id);
+  }
+
+  function block(b, counter) {
+      switch (b.type) {
+        case "p": return el("p", {}, ...inline(b.text));
+        case "h2": return el("h3", {}, b.text);
+        case "bullets": return el("ul", { class: "list" }, (b.items || []).map((t) => el("li", {}, ...inline(t))));
+        case "quote": return el("blockquote", {}, el("b", {}, b.label || "계기"), ...inline(b.text));
+        case "paper": {
+          const title = b.url && /^https?:\/\//.test(b.url) ? el("a", { href: b.url, target: "_blank", rel: "noopener" }, b.title) : b.title;
+          const meta = [b.venue, b.affil].filter(Boolean).join(", ");
+          return el("div", { class: "paper" }, el("div", { class: "pt" }, title),
+            el("div", { class: "pm" }, meta, b.exception ? el("span", { class: "ex" }, "예외: " + b.exception) : null));
+        }
+        case "figure": counter.n += 1; return figure(b, false, counter.n);
+        case "equation": return figure(b, true);
+        case "code": return codeBlock(b.lines || []);
+        case "callout": return el("div", { class: "callout" + (b.tone === "warm" ? " warm" : "") },
+          el("div", { class: "ct" }, b.title),
+          b.text ? el("p", {}, ...inline(b.text)) : null,
+          b.items ? el("ul", {}, b.items.map((t) => el("li", {}, ...inline(t)))) : null);
+        default: return null;
+      }
+  }
+
+  // 항목(논문·뉴스·그림)마다 반응 버튼. 누르는 즉시 feedback_tags/<주차>에 저장한다.
+  const TAGS = [["up", "👍 좋음"], ["known", "이미 앎"], ["deeper", "더 깊게"], ["wrong", "틀림"], ["meh", "별로"]];
+  let tagState = { week: null, tags: {}, ref: null, loaded: Promise.resolve() };
+  function paintTags(item, btns) {
+    const on = tagState.tags[item] || [];
+    btns.forEach((b, i) => b.setAttribute("aria-pressed", String(on.includes(TAGS[i][0]))));
+  }
+  async function toggleTag(item, key, btns, stat) {
+    const on = new Set(tagState.tags[item] || []);
+    if (on.has(key)) on.delete(key); else on.add(key);
+    tagState.tags[item] = [...on];
+    paintTags(item, btns);
+    stat.textContent = "저장 중";
+    try {
+      await tagState.ref.set({ week: tagState.week, tags: tagState.tags, updated: new Date().toISOString() });
+      stat.textContent = "저장됨";
+      setTimeout(() => { if (stat.textContent === "저장됨") stat.textContent = ""; }, 1500);
+    } catch (e) { stat.textContent = "저장하지 못했어요"; }
+  }
+  function tagBar(item) {
+    const stat = el("span", { class: "tagstat", role: "status" });
+    const btns = TAGS.map(([key, label]) => el("button", { type: "button", class: "tag", "aria-pressed": "false",
+      onclick: () => toggleTag(item, key, btns, stat) }, label));
+    tagState.loaded.then(() => paintTags(item, btns));
+    return el("div", { class: "tagbar", role: "group", "aria-label": "이 항목에 대한 반응" }, btns, stat);
+  }
+
+  function blocks(list, counter) {
+    return (list || []).flatMap((b) => {
+      const node = block(b, counter);
+      if (!node) return [];
+      return b.item && isOwner && tagState.ref ? [node, tagBar(b.item)] : [node];
+    });
+  }
+
+  // 코드 한 줄을 코드 | 주석 두 칸으로 나누고 함수·키워드·숫자·[자리표시]에 색을 입힌다.
+  const KW = new Set(["def", "if", "elif", "else", "for", "in", "while", "return", "and", "or", "not", "with", "as", "import", "from", "class", "lambda", "None", "True", "False"]);
+  function codeTokens(src) {
+    const out = [];
+    const re = /(\[[^\]]+\])|([A-Za-z_][A-Za-z0-9_.]*)(?=\s*\()|\b([A-Za-z_][A-Za-z0-9_]*)\b|(\b\d+(?:\.\d+)?\b)/g;
+    let last = 0, m;
+    while ((m = re.exec(src))) {
+      if (m.index > last) out.push(src.slice(last, m.index));
+      if (m[1]) out.push(el("span", { class: "ph" }, m[1].slice(1, -1)));
+      else if (m[2]) out.push(KW.has(m[2]) ? el("span", { class: "kw" }, m[2]) : el("span", { class: "fn" }, m[2]));
+      else if (m[3]) out.push(KW.has(m[3]) ? el("span", { class: "kw" }, m[3]) : m[3]);
+      else out.push(el("span", { class: "num" }, m[4]));
+      last = m.index + m[0].length;
+    }
+    if (last < src.length) out.push(src.slice(last));
+    return out;
+  }
+  function codeBlock(lines) {
+    return el("pre", { class: "code" }, lines.map((line) => {
+      const s = String(line ?? "");
+      const i = s.search(/(^|\s)#\s/);
+      const code = i < 0 ? s : s.slice(0, i).replace(/\s+$/, "");
+      const note = i < 0 ? "" : s.slice(i).replace(/^\s*#\s*/, "");
+      return el("div", { class: "ln" }, el("span", {}, ...codeTokens(code)),
+        el("span", { class: "c" }, ...(note ? codeTokens(note).map((t) => (typeof t === "string" ? t : t.className === "ph" ? t : t.textContent)) : [""])));
+    }));
+  }
+
+  const COVER = ["var(--c1)", "var(--c2)", "var(--c3)", "var(--c4)", "var(--c5)", "var(--c6)"];
+  let coverIdx = 0;
+  function section(id, num, label, heading, kids) {
+    const sec = el("section", { class: "sec", id: "s-" + id });
+    const marker = el("div", { class: "marker" },
+      num ? el("span", { class: "num" }, num) : null, el("span", { class: "label" }, label));
+    if (comments) marker.append(el("button", { class: "cbtn", type: "button",
+      onclick: () => comments.openComposer({ element: sec }).catch(() => {}) }, "댓글"));
+    const cover = el("div", { class: "cover" }, marker, heading ? el("h2", {}, heading) : null);
+    cover.style.setProperty("--cc", COVER[coverIdx++ % COVER.length]);
+    sec.append(...[cover, ...kids].filter((k) => k != null));
+    return sec;
+  }
+
+  let chapObs = null;
+  function chapters() {
+    const secs = [...app.querySelectorAll(".sec")];
+    const prog = el("div", { class: "progress", role: "navigation", "aria-label": "장 진행" },
+      secs.map((s) => el("button", { type: "button", "aria-label": (s.querySelector(".label")?.textContent || "") + " 로 이동",
+        onclick: () => s.scrollIntoView({ behavior: "smooth" }) })));
+    app.querySelector(".bar")?.append(prog);
+    let cur = -1;
+    const prev = el("button", { type: "button", "aria-label": "이전 장", onclick: () => go(cur - 1) }, "↑");
+    const next = el("button", { type: "button", "aria-label": "다음 장", onclick: () => go(cur + 1) }, "↓");
+    app.append(el("div", { class: "chapnav" }, prev, next));
+    function paint(i) {
+      cur = i;
+      [...prog.children].forEach((b, k) => { b.className = k < i ? "done" : k === i ? "on" : ""; });
+      prev.disabled = i <= 0; next.disabled = i >= secs.length - 1;
+    }
+    function go(i) { if (i >= 0 && i < secs.length) secs[i].scrollIntoView({ behavior: "smooth" }); }
+    chapObs?.disconnect();
+    chapObs = new IntersectionObserver(() => {
+      let best = 0;
+      secs.forEach((s, k) => { if (s.getBoundingClientRect().top < window.innerHeight * 0.4) best = k; });
+      paint(best);
+    }, { threshold: [0, 0.25, 0.5, 1] });
+    secs.forEach((s) => chapObs.observe(s));
+    paint(0);
+    chapters.go = (d) => go(cur + d);
+  }
+  window.addEventListener("keydown", (e) => {
+    if (e.target.closest && e.target.closest("input, textarea, select")) return;
+    if (e.key === "ArrowRight" || e.key === "j") { e.preventDefault(); chapters.go?.(1); }
+    if (e.key === "ArrowLeft" || e.key === "k") { e.preventDefault(); chapters.go?.(-1); }
+  });
+
+  // 피드백: 섹션 평가는 각 섹션 끝, 항목 반응은 항목 아래, 질문과 전체 의견은 맨 끝. 누르거나 입력을 마치면 바로 저장한다.
+  let fbState = { week: null, ref: null, data: null, loaded: Promise.resolve(), chain: Promise.resolve() };
+  function ensureFb(week) {
+    if (fbState.week === week) return;
+    const ref = db.collection("feedback").doc(week);
+    fbState = { week, ref, data: { week, ratings: {}, comments: {}, answers: {}, comment: "" }, loaded: null, chain: Promise.resolve() };
+    fbState.loaded = ref.get().then((sn) => {
+      if (!sn.exists) return;
+      const d = sn.data();
+      Object.assign(fbState.data, { ratings: d.ratings || {}, comments: d.comments || {}, answers: d.answers || {}, comment: d.comment || "" });
+    }).catch(() => {});
+  }
+  function saveFb(stat) {
+    stat.textContent = "저장 중";
+    const snap = JSON.parse(JSON.stringify({ ...fbState.data, updated: new Date().toISOString() }));
+    const ref = fbState.ref;
+    fbState.chain = fbState.chain.then(() => ref.set(snap)).then(() => {
+      stat.textContent = "저장됨";
+      setTimeout(() => { if (stat.textContent === "저장됨") stat.textContent = ""; }, 1500);
+    }, () => { stat.textContent = "저장하지 못했어요"; });
+  }
+  function onCommit(input, fn) {
+    input.addEventListener("blur", fn);
+    input.addEventListener("keydown", (e) => { if (e.key === "Enter" && input.tagName === "INPUT") { e.preventDefault(); fn(); } });
+  }
+  function sectionFeedback(key, label) {
+    const stat = el("span", { class: "tagstat", role: "status" });
+    const btns = [1, 2, 3, 4, 5].map((v) => el("button", { type: "button", "aria-pressed": "false", "aria-label": `${label} ${v}점`,
+      onclick: () => { const r = fbState.data.ratings; if (r[key] === v) delete r[key]; else r[key] = v; paint(); saveFb(stat); } }, String(v)));
+    const input = el("input", { type: "text", maxlength: "500", "aria-label": `${label} 코멘트`, placeholder: "이 섹션에 대한 코멘트 (입력을 마치면 저장돼요)" });
+    let last = "";
+    onCommit(input, () => {
+      const v = input.value.trim();
+      if (v === last) return;
+      last = v;
+      if (v) fbState.data.comments[key] = v; else delete fbState.data.comments[key];
+      saveFb(stat);
+    });
+    function paint() { btns.forEach((b, i) => b.setAttribute("aria-pressed", String(fbState.data.ratings[key] === i + 1))); }
+    fbState.loaded.then(() => { paint(); input.value = last = fbState.data.comments[key] || ""; });
+    return el("div", { class: "fb-strip" },
+      el("div", { class: "fb-head" }, el("span", { class: "who" }, "이 섹션 평가"), el("div", { class: "stars" }, btns), stat), input);
+  }
+
+  function feedbackSection(issue) {
+    const stat = el("span", { class: "status", role: "status" });
+    const ta = el("textarea", { placeholder: "전체 의견, 다음 주에 보고 싶은 것, 되돌릴 것(예: R3 삭제, X2 되돌려)" });
+    const save = el("button", { class: "primary", type: "button" }, "전체 의견 저장");
+    const qs = (issue.questions || []).map((q) => {
+      const qstat = el("span", { class: "tagstat", role: "status" });
+      const input = q.allow_text === false ? null
+        : el("input", { type: "text", maxlength: "500", placeholder: "직접 답하기 (입력을 마치면 저장돼요)", "aria-label": `${q.id} 답` });
+      const opts = (q.options || []).map((o) => el("button", { type: "button", class: "tag", "aria-pressed": "false",
+        onclick: () => {
+          const a = fbState.data.answers;
+          if (a[q.id] === o) delete a[q.id]; else a[q.id] = o;
+          if (input) input.value = "";
+          paintQ(); saveFb(qstat);
+        } }, o));
+      if (input) onCommit(input, () => { const v = input.value.trim(); if (!v || v === fbState.data.answers[q.id]) return; fbState.data.answers[q.id] = v; paintQ(); saveFb(qstat); });
+      function paintQ() { opts.forEach((b) => b.setAttribute("aria-pressed", String(fbState.data.answers[q.id] === b.textContent))); }
+      fbState.loaded.then(() => { paintQ(); const v = fbState.data.answers[q.id] || ""; if (input && !opts.some((b) => b.textContent === v)) input.value = v; });
+      return el("div", { class: "fb-q" }, el("div", { class: "fb-qt" }, el("b", {}, q.id), q.text, qstat),
+        opts.length ? el("div", { class: "fb-qo" }, opts) : null, input);
+    });
+    fbState.loaded.then(() => { ta.value = fbState.data.comment || ""; });
+    const commitAll = () => { const v = ta.value.trim(); if (v === (fbState.data.comment || "")) return; fbState.data.comment = v; saveFb(stat); };
+    save.addEventListener("click", () => { fbState.data.comment = ta.value.trim(); saveFb(stat); });
+    onCommit(ta, commitAll);
+    return section("feedback", "F", "피드백", "이번 호 마무리", [
+      el("p", { class: "fb-intro" }, "섹션 평가는 각 섹션 끝에서, 항목 반응은 항목 아래에서 남기면 바로 저장돼요. 여기에는 이번 주 질문의 답과 전체 의견을 남겨 주세요. 다음 호를 만들기 전까지 남기면 반영돼요."),
+      qs.length ? el("div", { class: "fb-qs" }, el("h3", {}, "이번 주 질문"), qs) : null,
+      ta, el("div", { class: "fb-actions" }, save, stat)]);
+  }
+
+  function render() {
+    const token = ++renderToken;
+    if (!issues.length) {
+      showState("첫 호를 기다리고 있어요", "정해진 발행 시각에 이 페이지에 새 호가 올라와요. 지금 바로 보려면 Scheduled에서 메인 작업을 수동으로 실행하세요.");
+      return;
+    }
+    const want = decodeURIComponent(location.hash.slice(1));
+    current = issues.find((d) => d.week === want) || issues.find((d) => !d.sample) || issues[0];
+    const is = current;
+    if (isOwner) ensureFb(is.week);
+    if (isOwner && tagState.week !== is.week) {
+      const ref = db.collection("feedback_tags").doc(is.week);
+      tagState = { week: is.week, tags: {}, ref, loaded: null };
+      tagState.loaded = ref.get().then((sn) => { if (sn.exists) tagState.tags = sn.data().tags || {}; }).catch(() => {});
+    }
+    const counter = { n: 0 };
+    coverIdx = 0;
+    const head = [el("header", { class: "hero" },
+      el("p", { class: "week" }, is.sample ? "샘플" : is.week, is.sample ? el("span", { class: "tag-sample" }, "디자인 확인용") : null),
+      el("h1", {}, is.title),
+      is.keywords?.length ? el("p", { class: "keywords" }, is.keywords.map((k) => el("span", {}, "#" + k))) : null)];
+    const notes = [];
+    if (is.applied_feedback) notes.push(el("p", {}, el("b", {}, "지난 피드백 반영"), ...inline(is.applied_feedback)));
+    (is.corrections || []).forEach((c) => notes.push(el("p", {}, el("b", {}, "정정"), ...inline(c))));
+    const tocItems = [["summary", "◆", is.summary_heading || "한눈에 보기"],
+      ...(is.sections || []).map((s) => [s.num, s.num, s.heading]),
+      ...(is.references?.length ? [["refs", "R", "참고문헌"]] : []),
+      ...(isOwner ? [["feedback", "F", "이번 호 피드백"]] : [])];
+    const toc = el("ol", { class: "toc", "aria-label": "목차" }, tocItems.map(([id, n, t]) => el("li", {},
+      el("button", { type: "button", onclick: () => document.getElementById("s-" + id)?.scrollIntoView({ behavior: "smooth" }) },
+        el("span", { class: "n" }, n), el("span", { class: "t" }, t)))));
+    const summary = section("summary", null, "한눈에 보기", is.summary_heading || "", [
+      ...(is.summary || []).map((t) => el("p", {}, ...inline(t))),
+      is.cards?.length ? el("div", { class: "cards" }, is.cards.map((c, i) => {
+        const card = el("div", { class: "card" },
+          el("div", { class: "v" }, c.value), el("div", { class: "l" }, c.label), el("div", { class: "d" }, ...inline(c.note)));
+        card.style.setProperty("--cc", COVER[(i + 1) % COVER.length]);
+        return card;
+      })) : null]);
+    summary.style.marginTop = "40px";
+    const secs = (is.sections || []).map((s) => section(s.num, s.num, s.label, s.heading, blocks(s.blocks, counter)));
+    if (isOwner) {
+      summary.append(sectionFeedback("summary", "한눈에 보기"));
+      secs.forEach((node, i) => node.append(sectionFeedback(is.sections[i].num, is.sections[i].label)));
+    }
+    const monthly = is.monthly_review?.length ? [section("monthly", "M", "월간 점검", "최근 4주 돌아보기", blocks(is.monthly_review, counter))] : [];
+    const refs = is.references?.length ? [section("refs", "R", "참고문헌", "", [el("ol", { class: "refs" }, is.references.map((r) =>
+      el("li", {}, `${r.authors} (${r.year}). `,
+        r.url && /^https?:\/\//.test(r.url) ? el("a", { href: r.url, target: "_blank", rel: "noopener" }, r.title) : r.title,
+        ". ", el("strong", {}, r.venue || ""))))])] : [];
+    if (token !== renderToken) return;
+    app.replaceChildren(...[bar(), ...head, notes.length ? el("div", { class: "notice" }, notes) : null, toc, summary, ...secs, ...monthly, ...refs,
+      isOwner ? feedbackSection(is) : null].filter((k) => k != null));
+    chapters();
+    document.title = `주간 리서치 노트 ${is.sample ? "샘플" : is.week}`;
+  }
+
+  async function start() {
+    const use = window.claude && window.claude.use ? (n) => window.claude.use(n) : async () => null;
+    [db, user, comments] = await Promise.all([use("db"), use("user"), use("comments")]);
+    if (!db) {
+      showState("이 보기에서는 노트를 불러올 수 없어요", "claude.ai에 로그인한 상태로 이 페이지를 열어 주세요.");
+      return;
+    }
+    isOwner = user ? ((await user.isOwner().catch(() => false)) ?? false) : false;
+    const slow = setTimeout(() => { if (!loadedOnce) showState("아직 연결하지 못했어요", "네트워크 상태를 확인하고 잠시 뒤 다시 열어 보세요."); }, 10000);
+    db.collection("issues").orderBy("published", "desc").limit(200).onSnapshot((snap) => {
+      issues = snap.docs.map((d) => ({ week: d.id, ...d.data() }));
+      if (!snap.metadata.fromCache) { loadedOnce = true; clearTimeout(slow); }
+      if (snap.empty && snap.metadata.fromCache) return;
+      render();
+    }, () => { clearTimeout(slow); showState("노트를 불러오지 못했어요", "페이지를 닫았다가 다시 열어 주세요."); });
+    window.addEventListener("hashchange", () => { render(); window.scrollTo(0, 0); });
+  }
+  start();
+})();
+</script>
+</body>
+</html>
+
+</body></html>
