@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Weekly Research Note
 
 **A research newsletter written from your actual week.**
@@ -6,6 +7,21 @@ This Claude skill reads what you really worked on (your Claude Code sessions and
 Most paper feeds start from keywords or a reference library. This one starts from the question you got stuck on last Tuesday.
 
 ## What lands in your hub every week
+=======
+# Researchify Wrapped
+
+**Your week with Claude, Wrapped.** A personal research newsletter that learns from you.
+
+Everything you did with Claude this week, from Claude Code sessions on your servers to chats in your claude.ai projects, becomes one research issue: the papers you should read next, what moved in your field, and an engineering idea worth keeping. It lands on a private page you flip through chapter by chapter, like Spotify Wrapped. Every tap of feedback goes into a ledger, and the newsletter rewrites its own instructions, writing guide, and figure style to fit you a little better each week.
+
+Most paper feeds start from keywords or a reference library. This one starts from the question you got stuck on last Tuesday.
+
+![Three chapters of a sample issue: the cover, a recent-paper chapter, and an engineering chapter](docs/hub-preview.png)
+
+<sub>The sample issue shipped with the skill. Issues are written in Korean out of the box; see [Customizing](#customizing).</sub>
+
+## What's in your Wrapped every week
+>>>>>>> 4745dc6 (Rename to Weekly Research Wrapped, add preview)
 
 | Section | What it is |
 |---|---|
@@ -16,7 +32,11 @@ Most paper feeds start from keywords or a reference library. This one starts fro
 | 3 Engineering | One design principle worth keeping, with a figure and a skeleton of the code |
 | 4 Next door | A short, curious look at how another researcher actually does research |
 
+<<<<<<< HEAD
 Feedback lives next to the content: a rating and comment at the end of each section, reaction buttons under every paper, news item, and figure (👍, already know, go deeper, wrong, meh), and an occasional clarifying question. Everything saves the moment you tap.
+=======
+Each section is its own chapter with a bold cover, so a whole issue reads in a few swipes. Feedback lives next to the content: a rating and comment at the end of each section, reaction buttons under every paper, news item, and figure (👍, already know, go deeper, wrong, meh), and an occasional clarifying question. Everything saves the moment you tap.
+>>>>>>> 4745dc6 (Rename to Weekly Research Wrapped, add preview)
 
 ## How it works
 
@@ -50,8 +70,13 @@ claude.ai project chats                                                  │
 
 ## Quick start (20–30 minutes)
 
+<<<<<<< HEAD
 1. Download [`dist/weekly-research-note.skill`](dist/), open it in Claude, and click **Save skill**. If there's no button, upload it from the Skills menu in Settings.
 2. In a Claude chat, say: **"Set up my weekly research note."**
+=======
+1. Download [`weekly-research-note.skill`](https://github.com/WJwonjun/Researchify-Wrapped/raw/main/dist/weekly-research-note.skill), open it in Claude, and click **Save skill**. If there's no button, upload it from the Skills menu in Settings. (The skill keeps its original name, `weekly-research-note`.)
+2. In a Claude chat, say: **"Use the weekly-research-note skill to set up my weekly research note."**
+>>>>>>> 4745dc6 (Rename to Weekly Research Wrapped, add preview)
 3. Answer a few questions: your interests, top venues, which inputs to use (Claude Code logs, project chats), and your schedule. Defaults are fine.
 4. Claude publishes your hub, seeds it, and hands you short bootstrap prompts plus installer files. A sample issue appears on your hub right away.
 5. Run the installer, then create two or three scheduled tasks by pasting the bootstrap prompts. You paste them once; from then on the tasks read their instructions from your hub.
@@ -106,3 +131,10 @@ cd skill && zip -r ../dist/weekly-research-note.skill weekly-research-note -x '*
 - Scheduled tasks can't search past chats, so project chats are read through Chrome. If that doesn't work for you, the fallback is a one-message "weekly collect" you send inside each project.
 - Local collectors run only when your computer is awake and the desktop app is open. A missed run fires the next time you open the app.
 - `setup-remote.sh` is macOS-only.
+<<<<<<< HEAD
+=======
+
+## License
+
+[MIT](LICENSE). Not affiliated with Spotify or Anthropic; "Wrapped" describes the look and feel.
+>>>>>>> 4745dc6 (Rename to Weekly Research Wrapped, add preview)
