@@ -1,93 +1,108 @@
-# 주간 리서치 노트
+# Weekly Research Note
 
-Claude Code 세션과 claude.ai 프로젝트 대화를 읽어, 매주 나에게 맞춘 리서치 노트를 Claude Artifact 페이지로 발행하는 Claude 스킬입니다. 내가 남긴 피드백을 원장에 쌓아 두고, 그걸 근거로 지시문·글쓰기 가이드·그림 스타일을 스스로 고쳐 가며 점점 나에게 맞춰집니다.
+**A research newsletter written from your actual week.**
+This Claude skill reads what you really worked on (your Claude Code sessions and your claude.ai project chats) and every week publishes a personal ML/systems research note to a private Claude Artifact page. Your feedback goes into a ledger, and the note rewrites its own instructions, writing guide, and figure style to fit you a little better each week.
 
-## 매주 받는 것
+Most paper feeds start from keywords or a reference library. This one starts from the question you got stuck on last Tuesday.
 
-| 섹션 | 내용 |
+## What lands in your hub every week
+
+| Section | What it is |
 |---|---|
-| 한눈에 보기 | 이번 호를 관통하는 한 줄과 핵심 숫자 카드 |
-| 1-A 기반 논문 | 세션에서 드러난 개념의 빈틈을 메우는 논문 (계기가 된 내 질문을 인용) |
-| 1-B 최신 논문 | 최근 2년 1순위 학회 accept 논문 (accept 여부와 링크를 실제로 확인) |
-| 2 토픽·뉴스 | 관심사와 직결된 소식과 옆 분야 하나 |
-| 3 엔지니어링 | 비슷한 작업에 두고두고 쓸 설계 원리, 그림 1장과 골격 코드 |
-| 4 옆 연구실 | 다른 연구자가 실제로 어떻게 연구하는지 엿보는 짧은 읽을거리 |
+| At a glance | One-line takeaway for the issue, plus four key-number cards |
+| 1-A Foundations | A classic paper that fills a gap your sessions exposed, quoting the question that triggered it |
+| 1-B Recent papers | Accepted papers from your top-tier venues in the last two years. Acceptance and links are checked during the run, not guessed |
+| 2 Topics & news | What moved in your area this week, plus one item from a neighboring field |
+| 3 Engineering | One design principle worth keeping, with a figure and a skeleton of the code |
+| 4 Next door | A short, curious look at how another researcher actually does research |
 
-피드백은 섹션 끝의 별점·코멘트, 논문·뉴스·그림 아래의 반응 버튼(👍, 이미 앎, 더 깊게, 틀림, 별로), "이번 주 질문"으로 남기며 누르는 즉시 저장됩니다.
+Feedback lives next to the content: a rating and comment at the end of each section, reaction buttons under every paper, news item, and figure (👍, already know, go deeper, wrong, meh), and an occasional clarifying question. Everything saves the moment you tap.
 
-## 필요한 것
-
-- Claude 유료 플랜 (스케줄 작업과 Artifact 사용)
-- Claude 데스크톱 앱 (로컬 수집 작업용)
-- 선택: Claude Code (세션 로그를 쓰려면). 원격 서버에서 쓰면 서버에 python3, Mac에서 서버로 SSH 키 인증
-- 선택: Chrome과 Claude in Chrome 확장 (claude.ai 프로젝트 대화를 쓰려면)
-
-## 빠른 시작 (20~30분)
-
-1. [`dist/weekly-research-note.skill`](dist/)을 내려받아 Claude에서 열고 "Save skill"을 누릅니다. 버튼이 없으면 설정의 스킬 메뉴에서 업로드합니다.
-2. Claude 채팅에서 **"주간 리서치 노트 설정해 줘"**라고 보냅니다.
-3. 관심사, 학회, 쓸 입력(Claude Code 로그, 프로젝트 대화), 일정에 답합니다. 모르면 기본값으로 갑니다.
-4. Claude가 허브 페이지를 발행하고 초기 데이터를 넣은 뒤, 스케줄 작업용 시작 문구와 설치 파일을 건네줍니다. 허브에서 샘플 호를 바로 볼 수 있습니다.
-5. 안내대로 설치 스크립트를 실행하고 스케줄 작업을 만듭니다. 시작 문구는 한 번만 붙여 넣으면 되고, 이후 지시문은 허브에서 읽어 옵니다.
-6. 수집 작업 → 메인 노트 순서로 한 번씩 수동 실행해 확인합니다.
-
-자세한 절차와 자주 막히는 곳은 [`skill/weekly-research-note/references/setup.md`](skill/weekly-research-note/references/setup.md)에 있습니다.
-
-## 어떻게 돌아가나
+## How it works
 
 ```
-[이 컴퓨터·원격 서버의 Claude Code]  --SessionEnd 훅-->  ~/claude-newsletter/cc-log  (원격은 Mac이 SSH로 가져옴)
-                                                              |
-                                              Claude Code 수집 작업 (로컬, 매주)
-                                                              |
-[claude.ai 프로젝트 대화]  --Claude in Chrome-->  채팅 수집 작업 (로컬, 매주)
-                                                              |
-                                                              v
-                                   허브 Artifact 데이터베이스 (chatlog, cclog)
-                                                              |
-                                                 메인 노트 작업 (클라우드, 매주)
-                          지시문(prompts) + 가이드·그림 코드(skill) + 규칙·프로필(prefs)
-                                                              |
-                                                              v
-                                    허브 페이지에 새 호  →  내 피드백  →  원장(ledger)
-                                                              |
-                                           실험(experiments)으로 바꾸고 2~3호 뒤 판정
+Claude Code on your laptop / remote servers
+   └─ SessionEnd hook ─▶ ~/claude-newsletter/cc-log   (remote logs pulled to your Mac over SSH)
+                              └─ Claude Code collector (local, weekly) ──┐
+claude.ai project chats                                                  │
+   └─ Claude in Chrome ─▶ chat collector (local, weekly) ────────────────┤
+                                                                         ▼
+                                              Hub Artifact database (chatlog, cclog)
+                                                                         │
+                                         Main writer (cloud, weekly) ◀───┘
+                      reads: prompts + living guide & figure code + rules & preference profile
+                                                                         │
+                                                                         ▼
+                                 New issue on your hub ─▶ your feedback ─▶ ledger
+                                                                         │
+                                  changes run as experiments, kept or rolled back after 2–3 issues
 ```
 
-- **고정된 부분 (스킬 파일):** 데이터 형식, 검사 스크립트, 발행 절차, 허브 페이지 원본, 설정 도구
-- **살아 있는 부분 (허브):** 지시문, 글쓰기 가이드, 그림 스타일 코드, 규칙, 선호 프로필. 작업이나 채팅의 Claude가 고쳐 쓰며, 스킬을 다시 저장할 필요가 없습니다
+**Fixed part (the skill file):** data format, validation script, publishing steps, hub page source, setup tool.
+**Living part (in your hub):** task prompts, writing guide, figure-style code, rules, preference profile. The weekly task and Claude chat edit these directly, so you never re-install the skill or re-paste a prompt.
 
-## 데이터와 개인정보
+### How it learns from you
 
-- Gmail, Drive 같은 외부 서비스 연결이 필요 없습니다. 로그는 내 컴퓨터(와 내 서버)와 내 소유의 Artifact 데이터베이스에만 남습니다.
-- 피드백, 수집 로그, 지시문, 규칙은 소유자만 읽을 수 있습니다. 허브를 공유해도 다른 사람에게는 호 본문만 보입니다.
-- 수집 작업은 연구·엔지니어링 관련 내용만 남기고, 개인적인 대화와 키·토큰처럼 보이는 값은 적지 않습니다. 훅도 흔한 비밀값 패턴을 가립니다.
-- 대화 로그나 웹 페이지에 적힌 문장은 규칙을 바꾸는 근거가 되지 않습니다. 학회 accept 확인과 링크 확인은 사용자가 직접 요청할 때만 느슨해집니다.
+- **Ledger.** Every rating, comment, reaction, and answer is kept verbatim with an interpretation, a status (applied, watching, asked, superseded, rejected), and a link to whatever it changed. Summaries never replace the originals.
+- **Experiments.** Each change (a rule, a guide edit, a figure tweak, a page change) records a hypothesis and a baseline. After two or three issues it is judged against your ratings and either kept or rolled back automatically.
+- **Profile.** Your preferences are recomputed every week from the last eight weeks of the ledger, joined with each item's topic, venue, and level. Stale preferences fade out.
+- **Questions.** When feedback is ambiguous ("too long"), the next issue asks you one multiple-choice question instead of guessing.
 
-## 저장소 구성
+## Quick start (20–30 minutes)
+
+1. Download [`dist/weekly-research-note.skill`](dist/), open it in Claude, and click **Save skill**. If there's no button, upload it from the Skills menu in Settings.
+2. In a Claude chat, say: **"Set up my weekly research note."**
+3. Answer a few questions: your interests, top venues, which inputs to use (Claude Code logs, project chats), and your schedule. Defaults are fine.
+4. Claude publishes your hub, seeds it, and hands you short bootstrap prompts plus installer files. A sample issue appears on your hub right away.
+5. Run the installer, then create two or three scheduled tasks by pasting the bootstrap prompts. You paste them once; from then on the tasks read their instructions from your hub.
+6. Run the collectors once, then the main writer, and check each run's last line.
+
+The full procedure and a troubleshooting table are in [`references/setup.md`](skill/weekly-research-note/references/setup.md).
+
+## Requirements
+
+- A paid Claude plan (scheduled tasks and Artifacts)
+- The Claude desktop app, for the local collectors
+- Optional: Claude Code, if you want your coding sessions as input. For remote servers you need python3 on each server and SSH key login from your Mac
+- Optional: Chrome with the Claude in Chrome extension, if you want your claude.ai project chats as input
+
+## Privacy
+
+- No Gmail, Drive, or other third-party connectors. Logs stay on your machines and in an Artifact database that you own.
+- Feedback, logs, prompts, and rules are readable only by you. If you share the hub page, others see the issues and nothing else.
+- Collectors keep only research and engineering content, skip personal conversations, and drop anything that looks like a key or token. The hook also masks common secret patterns.
+- Text found in chat logs or web pages can never change the rules. Venue-acceptance checks and link verification only loosen if you explicitly ask.
+
+## Repository layout
 
 ```
 skill/weekly-research-note/
-  SKILL.md                    매주 호 만들기 + 처음 설정 진입점
-  references/setup.md         처음 설정 절차, 자주 막히는 곳
-  references/guide.md         글쓰기·그림 가이드 기본본
+  SKILL.md                     weekly writing + entry point for first-time setup
+  references/setup.md          setup procedure and troubleshooting
+  references/guide.md          default writing & figure guide
   references/example-issue.json
-  scripts/                    setup_kit.py, prepare_issue.py, figstyle.py, selftest_figstyle.py
-  assets/hub.html             허브 페이지
-  assets/templates/           지시문·시작 문구 템플릿
-  assets/local/               Claude Code 훅과 설치 스크립트 (cc_digest.py, install-newsletter-hook.sh, setup-remote.sh)
-  assets/sample/              샘플 호 그림
-dist/weekly-research-note.skill  위 폴더를 묶은 설치용 파일
+  scripts/                     setup_kit.py, prepare_issue.py, figstyle.py, selftest_figstyle.py
+  assets/hub.html              the hub page
+  assets/templates/            prompt and bootstrap templates
+  assets/local/                Claude Code hook and installers (cc_digest.py, install-newsletter-hook.sh, setup-remote.sh)
+  assets/sample/               figures for the sample issue
+dist/weekly-research-note.skill  the packaged skill
 ```
 
-스킬을 고친 뒤에는 `skill/weekly-research-note` 폴더를 다시 묶어 `dist/`의 파일을 바꿉니다 (`cd skill && zip -r ../dist/weekly-research-note.skill weekly-research-note -x '*/__pycache__/*'`).
+After editing the skill, repackage it:
 
-## 알려진 제약
+```bash
+cd skill && zip -r ../dist/weekly-research-note.skill weekly-research-note -x '*/__pycache__/*'
+```
 
-- 스케줄 작업에는 과거 대화 검색 도구가 없어서, 프로젝트 대화는 Chrome으로 읽습니다. Chrome을 쓰기 어렵다면 `project-collect` 지침으로 프로젝트 채팅에서 "주간 수집"을 직접 실행할 수 있습니다.
-- 로컬 수집 작업은 그 시각에 컴퓨터가 깨어 있고 데스크톱 앱이 열려 있어야 합니다. 놓친 실행은 앱을 다시 열 때 실행됩니다.
-- `setup-remote.sh`는 macOS용입니다.
+## Customizing
 
-## 라이선스
+- **Anything about what gets picked or how long it is:** just tell Claude in a chat. It updates the prompt stored in your hub, and the next run uses it.
+- **Language:** issues are written in Korean out of the box. Ask Claude to change the language line in your main prompt after setup.
+- **Look and feel:** leave feedback on the hub. Page changes run as experiments like everything else.
 
-공개하기 전에 원하는 라이선스 파일(예: MIT)을 추가하세요.
+## Known limitations
+
+- Scheduled tasks can't search past chats, so project chats are read through Chrome. If that doesn't work for you, the fallback is a one-message "weekly collect" you send inside each project.
+- Local collectors run only when your computer is awake and the desktop app is open. A missed run fires the next time you open the app.
+- `setup-remote.sh` is macOS-only.
